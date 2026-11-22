@@ -1,0 +1,18 @@
+.bubble {
+  max-width: 70%;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  font-size: 1.125rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.mine {
+  align-self: flex-end;
+  background: var(--active-bg);
+}
+
+.theirs {
+  align-self: flex-start;
+  background: var(--hover-bg);
+}
