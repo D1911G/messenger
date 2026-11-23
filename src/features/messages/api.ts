@@ -1,21 +1,34 @@
-// // import { supabase } from "../../shared/supabase";
-// // import { messageSchema } from "./schemas";
+import { mockChats, mockMessages, CURRENT_USER } from "../../shared/mockData";
+import type { Chat, Message } from "../../shared/types";
 
-// export async function fetchMessages(chatId: string) {
-//   const { data, error } = await supabase
-//     .from("messages")
-//     .select("*")
-//     .eq("chat_id", chatId)
-//     .order("created_at", { ascending: true });
+const db: Message[] = [...mockMessages];
 
-//   if (error) throw error;
-//   return messageSchema.array().parse(data);
-// }
+function delay(ms: number) {
+  return new Promise((res) => setTimeout(res, ms));
+}
 
-// export async function sendMessage(chatId: string, text: string) {
-//   const { error } = await supabase
-//     .from("messages")
-//     .insert({ chat_id: chatId, text });
+export async function fetchChats(): Promise<Chat[]> {
+  await delay(500);
+  return mockChats;
+}
 
-//   if (error) throw error;
-// }
+export async function fetchMessages(chatId: number): Promise<Message[]> {
+  await delay(500);
+  return db.filter((m) => m.chatId === chatId);
+}
+
+export async function sendMessage(
+  chatId: number,
+  body: string,
+): Promise<Message> {
+  await delay(500);
+  const message: Message = {
+    id: Date.now(),
+    chatId,
+    from: CURRENT_USER,
+    date: Date.now(),
+    body,
+  };
+  db.push(message);
+  return message;
+}
