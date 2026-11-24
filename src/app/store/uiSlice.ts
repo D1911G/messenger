@@ -7,8 +7,18 @@ type UiState = {
   theme: Theme;
 };
 
+const getInitialTheme = (): Theme => {
+  try {
+    const saved = localStorage.getItem("theme");
+    if (saved === "dark" || saved === "light") return saved;
+  } catch {
+    // localStorage недоступен, берём значение по умолчанию
+  }
+  return "dark";
+};
+
 const initialState: UiState = {
-  theme: "dark",
+  theme: getInitialTheme(),
 };
 
 const uiSlice = createSlice({
