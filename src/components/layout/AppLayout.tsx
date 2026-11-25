@@ -1,23 +1,23 @@
 import { Outlet } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../app/hooks/hooks";
-import { toggleTheme } from "../../app/store/uiSlice";
+import { useAppSelector } from "../../app/hooks/hooks";
+
 import styles from "./AppLayout.module.css";
-import ChatList from "../chat/ChatList";
+
+import Sidebar from "../sidebar/Sidebar";
+import InfoPanel from "../infoPanel/InfoPanel";
 
 export default function AppLayout() {
-  const theme = useAppSelector((state) => state.ui.theme);
-  const dispatch = useAppDispatch();
+  const isInfoPanelOpen = useAppSelector((state) => state.ui.isInfoPanelOpen);
 
   return (
-    <div className={styles.layout}>
-      <aside className={styles.sidebar}>
-        <button onClick={() => dispatch(toggleTheme())}>Тема: {theme}</button>
-        <ChatList></ChatList>
-      </aside>
-
+    <div
+      className={`${styles.layout} ${isInfoPanelOpen ? styles.layoutWithPanel : ""}`}
+    >
+      <Sidebar></Sidebar>
       <main className={styles.main}>
         <Outlet />
       </main>
+      {isInfoPanelOpen && <InfoPanel></InfoPanel>}
     </div>
   );
 }

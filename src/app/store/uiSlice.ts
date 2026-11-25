@@ -5,6 +5,7 @@ export type Theme = "light" | "dark";
 
 type UiState = {
   theme: Theme;
+  isInfoPanelOpen: boolean;
 };
 
 const getInitialTheme = (): Theme => {
@@ -19,6 +20,7 @@ const getInitialTheme = (): Theme => {
 
 const initialState: UiState = {
   theme: getInitialTheme(),
+  isInfoPanelOpen: false,
 };
 
 const uiSlice = createSlice({
@@ -31,8 +33,11 @@ const uiSlice = createSlice({
     setTheme(state, action: PayloadAction<Theme>) {
       state.theme = action.payload;
     },
+    toggleInfoPanel(state) {
+      state.isInfoPanelOpen = !state.isInfoPanelOpen;
+    },
   },
 });
 
-export const { toggleTheme, setTheme } = uiSlice.actions;
+export const { toggleTheme, setTheme, toggleInfoPanel } = uiSlice.actions;
 export default uiSlice.reducer;

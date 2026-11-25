@@ -3,6 +3,7 @@ import MessageList from "../../components/chat/MessageList";
 import MessageInput from "../../components/chat/messageInput/MessageInput";
 import { useMessages } from "../../features/messages/hooks";
 import NotFoundPage from "../notFoundPage/NotFoundPage";
+import ChatHeader from "../../components/chat/chatHeader/ChatHeader";
 
 export default function ChatPage() {
   const { chatId } = useParams();
@@ -13,6 +14,7 @@ export default function ChatPage() {
 
   return (
     <>
+      <ChatHeader chatId={id}></ChatHeader>
       <MessageList messages={messages} />
       <MessageInput chatId={id} />
     </>

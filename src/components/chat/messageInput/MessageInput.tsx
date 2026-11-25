@@ -1,12 +1,15 @@
 import { useState, type FormEvent } from "react";
 import { useSendMessage } from "../../../features/messages/hooks";
+
 type Props = { chatId: number };
+
 export default function MessageInput({ chatId }: Props) {
   const [inputText, setInputText] = useState("");
+  const { mutate, isPending } = useSendMessage(chatId);
+
   const sendMessageHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (inputText.trim() === "") return;
-
+    if (inputText.trim() === "" || isPending) return;
     mutate(inputText);
     setInputText("");
   };
@@ -14,8 +17,6 @@ export default function MessageInput({ chatId }: Props) {
   const addFileHandler = () => {
     alert("Add file please");
   };
-
-  const { mutate } = useSendMessage(chatId);
 
   return (
     <div>
@@ -29,7 +30,7 @@ export default function MessageInput({ chatId }: Props) {
           aria-label="Сообщение"
           placeholder="Напишите сообщение..."
         ></input>
-        <button disabled={inputText.trim() === ""}>Send</button>
+        <button disabled={inputText.trim() === "" || isPending}>Send</button>
         <button type="button" onClick={addFileHandler}>
           Add file
         </button>
