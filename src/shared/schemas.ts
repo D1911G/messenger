@@ -6,4 +6,10 @@ export const registerSchema = z.object({
   password: z.string().min(8, "Пароль должен содержать минимум 8 символов"),
 });
 
+export const loginSchema = z.object({
+  email: z.email("Введите корректный email"),
+  password: z.string().min(1, "Введите пароль"),
+});
+
 export type RegisterForm = z.infer<typeof registerSchema>;
+export type LoginForm = z.infer<typeof loginSchema>;
