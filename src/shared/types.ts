@@ -10,3 +10,8 @@ export type Message = {
   date: number;
   body: string;
 };
+export type User = {
+  id: number;
+  name: string;
+  email: string;
+};
