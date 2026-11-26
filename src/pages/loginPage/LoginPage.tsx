@@ -2,6 +2,8 @@ import { useForm } from "react-hook-form";
 import type { LoginForm } from "../../shared/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../../shared/schemas";
+import { useNavigate } from "react-router-dom";
+import { useLogin } from "../../features/auth/hooks";
 
 export default function LoginPage() {
   const {
@@ -12,8 +14,11 @@ export default function LoginPage() {
     resolver: zodResolver(loginSchema),
   });
 
+  const navigate = useNavigate();
+  const { mutate, isPending, isError, error } = useLogin();
+
   const onSubmit = (data: LoginForm) => {
-    console.log(data);
+    mutate(data, { onSuccess: () => navigate("/") });
   };
   return (
     <div>
@@ -30,8 +35,10 @@ export default function LoginPage() {
           <input id="password" type="password" {...register("password")} />
           {errors.password && <p role="alert">{errors.password.message}</p>}
         </div>
-
-        <button type="submit">Логин</button>
+        {isError && <p role="alert">{error.message}</p>}
+        <button type="submit" disabled={isPending}>
+          Логин
+        </button>
       </form>
     </div>
   );
