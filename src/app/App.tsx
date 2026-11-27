@@ -10,6 +10,7 @@ import ChatPage from "../pages/chatPage/ChatPage";
 import RegisterPage from "../pages/registerPage/RegisterPage";
 import NotFoundPage from "../pages/notFoundPage/NotFoundPage";
 import AppLayout from "../components/layout/AppLayout";
+import RequireAuth from "../features/auth/RequireAuth";
 
 function App() {
   const theme = useAppSelector((state) => state.ui.theme);
@@ -21,11 +22,12 @@ function App() {
 
   return (
     <Routes>
-      <Route element={<AppLayout />}>
-        <Route path="/" element={<HomePage />}></Route>
-        <Route path="/chats/:chatId" element={<ChatPage />}></Route>
+      <Route element={<RequireAuth />}>
+        <Route element={<AppLayout />}>
+          <Route path="/" element={<HomePage />}></Route>
+          <Route path="/chats/:chatId" element={<ChatPage />}></Route>
+        </Route>
       </Route>
-
       <Route path="/login" element={<LoginPage />}></Route>
       <Route path="/register" element={<RegisterPage />}></Route>
       <Route path="*" element={<NotFoundPage />}></Route>
